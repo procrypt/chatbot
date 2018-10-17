@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AWS Lambda in Action</title>
+  <!-- JQuery - required by Boostrap -->
+  <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Ubuntu" />
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+<script>
+function callAwsLambdaFunction(param) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+			res_raw = JSON.parse(this.responseText);
+			console.log(res_raw.messages[0].unstructured.text);
+                document.getElementById("response").innerHTML = res_raw.messages[0].unstructured.text;
+            }
+        };
+        xhttp.open("POST", "https://3l1pizj93e.execute-api.us-east-1.amazonaws.com/prod/myLambdaFunction", true);
+        xhttp.setRequestHeader("x-api-key", "jECLIbW6nd6pL3fMZpFWmaztkEX14g8taIZOHqCw");
+		var data = JSON.stringify({
+  "messages": [
+    {
+      "type": "string",
+      "unstructured": {
+        "id": "string",
+        "text": param,
+        "timestamp": "string"
+      }
+    }
+  ]
+});
+        xhttp.send(data);
+}
+</script>
+  <style>
+    .button {
+      background-color: #4CAF50; /* Green */
+      border: none;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+  .button1 {background-color: #e7e7e7; color: black;} /* Gray */
+  </style>
+
+</head>
+
+<body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Dumb! The Chat Bot</h1>
+        <p>Hi! I'm <b>Dumb</b>, and I'm here to talk to you. My creator developed me in <b>Go</b> and I'm calling an <b>AWS Lambda function</b> in the backend, from this static web page hosted on <b>S3</b> using <b>API Gateway</b>. You can ask me things like <b>'time'</b>, <b>'date'</b>, <b>'day'</b>, <b>'month'</b>, <b>'weather'</b> and I'll try to answer as correct as possible. Make sure your enable <b>CORS</b> in your web browser.</p>
+      </div>
+        <form role="form" id="chatbotForm" target="_blank" onsubmit="try {return window.confirm(&quot;You are submitting information to an external page. \nAre you sure?&quot;);} catch (e) {return false;}">
+        <div class="form-group">
+          <label for="msg"></label>
+          <input type="text"  class="form-control" id="msg">
+        </div>
+        <input type ="button" class="button button1" onclick="callAwsLambdaFunction(document.getElementById('msg').value)" value="Talk"></input><br>
+        </form>
+		<h2 id="response">
+		</h2>
+        <div>
+      </div>
+    </div>
+</body>
+</html>
