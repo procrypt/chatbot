@@ -1,8 +1,11 @@
-## Dumb! The Chatbot
-This is minimum functionality chatbot written in **Go**.
+# Dumb! The Chatbot
+This is minimum functionality chatbot written in **Golang**.
 
 It can give responses like, `current weather`, `time`,`date`, `day` and `month`.
-The `JSON` request and response objects are shown below.
+
+**NOTE:** Please make sure you enable **CORS** in your web-browser by adding this [plugin](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en)
+
+The JSON request and response objects are shown below.
 
 ### JSON Request Object
 
